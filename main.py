@@ -1,8 +1,3 @@
-Sure, I'll add a Sales Management section to your application. This section will allow you to track sales and provide analytics on customer demand to help with inventory purchasing decisions.
-
-Here's the updated code with the Sales Management feature added:
-
-```python
 import streamlit as st
 import pandas as pd
 import numpy as np
