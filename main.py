@@ -220,8 +220,8 @@ elif page == 'Analytics':
         st.line_chart(due_dates)
 
     st.subheader('Inventory Value by Category')
-    inventory_value_by_category = st.session_state.inventory.groupby('Category').apply(lambda x: (x['Quantity'] * x['Price']).sum())
-    st.bar_chart(inventory_value_by_category)
+    inventory_value_by_category = st.session_state.inventory.groupby('Category').apply(lambda x: (x['Quantity'] * x['Price']).sum()).reset_index(name='Total Value')
+    st.bar_chart(inventory_value_by_category.set_index('Category'))
 
     st.subheader('Low Stock Items')
     low_stock_items = st.session_state.inventory[st.session_state.inventory['Quantity'] < 10]
