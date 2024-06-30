@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import io
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 from datetime import datetime
 
@@ -197,4 +196,41 @@ elif page == 'Sales Management':
 
 # Analytics Page
 elif page == 'Analytics':
-    st.title('
+    st.title('Analytics')
+
+    st.subheader('Category Distribution')
+    category_counts = st.session_state.inventory['Category'].value_counts()
+    st.bar_chart(category_counts)
+
+    st.subheader('Sales Over Time')
+    if not st.session_state.sales.empty:
+        sales_over_time = st.session_state.sales.groupby('Date').sum()['Quantity']
+        st.line_chart(sales_over_time)
+
+    st.subheader('Top Customers')
+    if not st.session_state.sales.empty:
+        top_customers = st.session_state.sales.groupby('Customer').sum().sort_values(by='Quantity', ascending=False)
+        st.bar_chart(top_customers['Quantity'])
+
+    st.subheader('Credit Books Summary')
+    if not st.session_state.credit_books.empty:
+        total_credit = st.session_state.credit_books['Amount Due'].sum()
+        st.write(f'Total Outstanding Credit: ₹{total_credit:.2f}')
+        due_dates = st.session_state.credit_books.groupby('Due Date').sum()['Amount Due']
+        st.line_chart(due_dates)
+
+    st.subheader('Inventory Value by Category')
+    inventory_value_by_category = st.session_state.inventory.groupby('Category').apply(lambda x: (x['Quantity'] * x['Price']).sum())
+    st.bar_chart(inventory_value_by_category)
+
+    st.subheader('Low Stock Items')
+    low_stock_items = st.session_state.inventory[st.session_state.inventory['Quantity'] < 10]
+    if not low_stock_items.empty:
+        st.warning('The following items are low in stock:')
+        st.dataframe(low_stock_items)
+
+    st.subheader('High Value Items')
+    high_value_items = st.session_state.inventory[st.session_state.inventory['Price'] > 1000]
+    if not high_value_items.empty:
+        st.warning('The following items have a high unit price:')
+        st.dataframe(high_value_items)
