@@ -131,7 +131,7 @@ elif page == 'Quotation Builder':
                 c = canvas.Canvas(pdf_buffer, pagesize=letter)
                 c.setFont('Helvetica', 12)
 
-                c.drawString(30,753,'Sonali Collection')
+                c.drawString(30,760,'Sonali Collection')
                 c.drawString(30, 750, 'Quotation')
                 c.drawString(30, 730, f'Customer: {customer_name}')
                 c.drawString(30, 710, f'Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
